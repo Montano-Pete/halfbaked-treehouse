@@ -19,6 +19,14 @@ export default function Login() {
     event.preventDefault();
     const loginWasSuccessful = auth.login(formState.email, formState.password);
 
+    if (loginWasSuccessful) {
+      history.replace(from.pathname);
+    } else {
+      setError(
+        'User login failed. Please enter the correct information and try again.'
+      );
+    }
+
     // TODO: If login was unsuccessful, set an error with a message
     // to display to the user that their login failed.
     //
@@ -32,17 +40,21 @@ export default function Login() {
     <>
       <h3>You must log in to view the page at {from.pathname}</h3>
       <form onSubmit={handleLogin} className={styles.loginForm}>
-        <label>Email</label>
+        <label htmlFor="email">Email</label>
         <input
           id="email"
           name="email"
           type="email"
-        />{' '}
-        <label>Password</label>
+          value={formState.email}
+          onChange={handleFormChange}
+        />
+        <label htmlFor="password">Password</label>
         <input
           id="password"
           name="password"
           type="password"
+          value={formState.password}
+          onChange={handleFormChange}
         />
         <button type="submit" aria-label="Sign In">
           Sign in
